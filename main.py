@@ -1,14 +1,15 @@
-import moderngl_window as mglw
+from moderngl_window import WindowConfig, run_window_config
+from moderngl_window.geometry import quad_fs     
 
-
-class App(mglw.WindowConfig):
+class App(WindowConfig):
     window_size = 1600, 900
     resource_dir = 'programs'
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.quad = mglw.geometry.quad_fs()
-        self.program = self.load_program(vertex_shader='vertex.glsl', fragment_shader='fragment.glsl')
+        self.quad = quad_fs()
+        self.program = self.load_program(vertex_shader = 'vertex.glsl',\
+                                         fragment_shader = 'fragment.glsl')
         # uniforms
         self.program['u_resolution'] = self.window_size
 
@@ -20,6 +21,4 @@ class App(mglw.WindowConfig):
     def mouse_position_event(self, x, y, dx, dy):
         self.program['u_mouse'] = (x, y)
 
-
-if __name__ == '__main__':
-    mglw.run_window_config(App)
+run_window_config(App)
